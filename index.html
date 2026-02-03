@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will you be my Valentine?</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f9c5d1 0%, #f0a7c8 50%, #e68ab0 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+        }
+        
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.5rem;
+            color: #e63946;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 0px rgba(230, 57, 70, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            color: #6d6875;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .heart {
+            font-size: 5rem;
+            color: #e63946;
+            margin: 30px 0;
+            animation: heartbeat 1.5s infinite;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            5% { transform: scale(1.1); }
+            10% { transform: scale(1); }
+            15% { transform: scale(1.2); }
+            20% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 40px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .yes-btn, .no-btn {
+            padding: 20px 50px;
+            font-size: 2rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            font-family: 'Poppins', sans-serif;
+            min-width: 200px;
+        }
+        
+        .yes-btn {
+            background: linear-gradient(to right, #2a9d8f, #1d7873);
+            color: white;
+        }
+        
+        .yes-btn:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(42, 157, 143, 0.4);
+        }
+        
+        .no-btn {
+            background: linear-gradient(to right, #e63946, #d00000);
+            color: white;
+            position: relative;
+        }
+        
+        .no-btn:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(230, 57, 70, 0.4);
+        }
+        
+        .hidden-message {
+            display: none;
+            margin-top: 50px;
+            padding: 30px;
+            background: linear-gradient(135deg, #ffafcc, #ffc8dd);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hidden-message h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: #e63946;
+            margin-bottom: 20px;
+        }
+        
+        .hidden-message p {
+            font-size: 1.8rem;
+            color: #6d6875;
+            line-height: 1.6;
+        }
+        
+        .hearts-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            font-size: 2rem;
+            color: rgba(230, 57, 70, 0.4);
+            animation: float 5s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .mobile-instructions {
+            margin-top: 40px;
+            font-size: 1.2rem;
+            color: #6d6875;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 15px;
+            max-width: 500px;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3.5rem;
+            }
+            
+            .heart {
+                font-size: 4rem;
+            }
+            
+            .yes-btn, .no-btn {
+                padding: 18px 40px;
+                font-size: 1.8rem;
+                min-width: 170px;
+            }
+            
+            .button-container {
+                gap: 20px;
+            }
+            
+            .mobile-instructions {
+                display: block;
+            }
+            
+            .hidden-message h2 {
+                font-size: 2.8rem;
+            }
+            
+            .hidden-message p {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .heart {
+                font-size: 3.5rem;
+            }
+            
+            .yes-btn, .no-btn {
+                padding: 16px 30px;
+                font-size: 1.6rem;
+                min-width: 140px;
+            }
+            
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        footer {
+            margin-top: 40px;
+            color: #6d6875;
+            font-size: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-container" id="heartsContainer"></div>
+    
+    <div class="container">
+        <h1>Will you be my Valentine?</h1>
+        <div class="subtitle">This Valentine's Day, I have just one question for you...</div>
+        
+        <div class="heart">❤️</div>
+        
+        <div class="button-container">
+            <button class="yes-btn" id="yesBtn">YES!</button>
+            <button class="no-btn" id="noBtn">No</button>
+        </div>
+        
+        <div class="mobile-instructions">
+            <p>💡 Tip: Try tapping the "No" button – it might be a bit shy!</p>
+        </div>
+        
+        <div class="hidden-message" id="hiddenMessage">
+            <h2>You've made me the happiest person! 💖</h2>
+            <p>Thank you for saying YES! This Valentine's Day will be special because I get to spend it with you. I can't wait to create beautiful memories together. You mean the world to me! 💕</p>
+            <p style="margin-top: 20px; font-style: italic;">With all my love,</p>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Made with ❤️ for a special someone</p>
+        <div style="margin-top: 20px; background-color: rgba(255, 255, 255, 0.8); padding: 25px; border-radius: 15px; max-width: 800px;">
+            <h3 style="color: #e63946; margin-bottom: 25px; font-size: 2rem; text-align: center;">🚀 Simple 4-Step Guide to Host on GitHub (MacBook)</h3>
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 30px; position: relative;">
+                <div style="flex: 1; text-align: center; position: relative; z-index: 2;">
+                    <div style="background: linear-gradient(135deg, #ffafcc, #ffc8dd); width: 50px; height: 50px; line-height: 50px; border-radius: 50%; margin: 0 auto 10px; font-weight: bold; color: #e63946;">1</div>
+                    <div style="font-weight: 600; color: #e63946;">Prepare</div>
+                </div>
+                <div style="flex: 1; text-align: center; position: relative; z-index: 2;">
+                    <div style="background: linear-gradient(135deg, #ffafcc, #ffc8dd); width: 50px; height: 50px; line-height: 50px; border-radius: 50%; margin: 0 auto 10px; font-weight: bold; color: #e63946;">2</div>
+                    <div style="font-weight: 600; color: #e63946;">Upload</div>
+                </div>
+                <div style="flex: 1; text-align: center; position: relative; z-index: 2;">
+                    <div style="background: linear-gradient(135deg, #ffafcc, #ffc8dd); width: 50px; height: 50px; line-height: 50px; border-radius: 50%; margin: 0 auto 10px; font-weight: bold; color: #e63946;">3</div>
+                    <div style="font-weight: 600; color: #e63946;">Deploy</div>
+                </div>
+                <div style="flex: 1; text-align: center; position: relative; z-index: 2;">
+                    <div style="background: linear-gradient(135deg, #ffafcc, #ffc8dd); width: 50px; height: 50px; line-height: 50px; border-radius: 50%; margin: 0 auto 10px; font-weight: bold; color: #e63946;">4</div>
+                    <div style="font-weight: 600; color: #e63946;">Share</div>
+                </div>
+                <div style="position: absolute; top: 25px; left: 10%; right: 10%; height: 4px; background: #ffafcc; z-index: 1;"></div>
+            </div>
+            
+            <div style="background: rgba(255, 255, 255, 0.9); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                <h4 style="color: #2a9d8f; margin-bottom: 15px; font-size: 1.3rem;">📦 Phase 1: Preparation</h4>
+                <ol style="text-align: left; margin-left: 20px; line-height: 1.7;">
+                    <li><strong>Download this website file</strong> using the button below</li>
+                    <li><strong>Create a GitHub account</strong> at <a href="https://github.com" target="_blank" style="color: #e63946; font-weight: 600;">github.com</a> if you don't have one</li>
+                    <li><strong>Sign in</strong> to your GitHub account</li>
+                </ol>
+            </div>
+            
+            <div style="background: rgba(255, 255, 255, 0.9); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                <h4 style="color: #2a9d8f; margin-bottom: 15px; font-size: 1.3rem;">⬆️ Phase 2: Upload to GitHub</h4>
+                <ol style="text-align: left; margin-left: 20px; line-height: 1.7;" start="4">
+                    <li>Click the <strong>"+" icon</strong> in top-right → <strong>"New repository"</strong></li>
+                    <li>Name it (e.g., <code>valentine-website</code>) and make it <strong>Public</strong></li>
+                    <li>Click <strong>"Create repository"</strong></li>
+                    <li>On the next page, click <strong>"uploading an existing file"</strong></li>
+                    <li><strong>Drag & drop</strong> the downloaded HTML file into the upload area<br>
+                        <span style="font-size: 0.85rem; color: #6d6875;">💡 <strong>Note:</strong> The file downloads as <code>index.html</code> - perfect for GitHub Pages!</span></li>
+                    <li>Click <strong>"Commit changes"</strong></li>
+                </ol>
+            </div>
+            
+            <div style="background: rgba(255, 255, 255, 0.9); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                <h4 style="color: #2a9d8f; margin-bottom: 15px; font-size: 1.3rem;">🚀 Phase 3: Deploy Website</h4>
+                <ol style="text-align: left; margin-left: 20px; line-height: 1.7;" start="10">
+                    <li>Go to <strong>Settings → Pages</strong> (in left sidebar)</li>
+                    <li>Under <strong>"Source"</strong>, select <strong>"Deploy from a branch"</strong></li>
+                    <li>Choose <strong>"main" branch</strong> and <strong>"/ (root)" folder</strong></li>
+                    <li>Click <strong>"Save"</strong></li>
+                    <li>Wait <strong>1-2 minutes</strong> for deployment (refresh the page)</li>
+                </ol>
+            </div>
+            
+            <div style="background: rgba(255, 255, 255, 0.9); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                <h4 style="color: #2a9d8f; margin-bottom: 15px; font-size: 1.3rem;">💌 Phase 4: Share with Your Valentine</h4>
+                <ol style="text-align: left; margin-left: 20px; line-height: 1.7;" start="15">
+                    <li>Your live URL will be: <br><code style="background: #f8f9fa; padding: 5px 10px; border-radius: 5px; font-size: 0.9rem;">https://[your-username].github.io/[repository-name]/</code></li>
+                    <li><strong>Copy the URL</strong> from the GitHub Pages section</li>
+                    <li><strong>Share the link</strong> with your special someone!</li>
+                </ol>
+            </div>
+            
+            <div style="margin-top: 25px; padding: 20px; background: linear-gradient(135deg, #ffafcc, #ffc8dd); border-radius: 12px; text-align: center;">
+                <p style="font-weight: 600; color: #e63946; margin-bottom: 15px;">🎯 Quick Start:</p>
+                <button id="downloadBtn" style="background: linear-gradient(to right, #2a9d8f, #1d7873); color: white; border: none; padding: 18px 40px; font-size: 1.4rem; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.2); font-weight: 600; margin-bottom: 15px;">
+                    📥 STEP 1: Download HTML File
+                </button>
+                <p style="font-size: 0.95rem; color: #6d6875;">Click above, then follow the 4 phases above. Takes <strong>under 5 minutes!</strong></p>
+            </div>
+            
+            <div style="margin-top: 25px; padding: 15px; background: rgba(255, 255, 255, 0.7); border-radius: 10px; border-left: 5px solid #2a9d8f;">
+                <p style="margin-bottom: 10px; font-weight: 600; color: #2a9d8f;">💡 Pro Tips for MacBook Users:</p>
+                <ul style="text-align: left; margin-left: 20px; line-height: 1.6; font-size: 0.9rem;">
+                    <li>Use <strong>Safari or Chrome</strong> for best experience</li>
+                    <li>Keep the downloaded file in your <strong>Downloads folder</strong> for easy access</li>
+                    <li>Bookmark <a href="https://github.com" style="color: #e63946;">github.com</a> for quick access</li>
+                    <li>If you have issues, try the <strong>GitHub Desktop app</strong> (available for Mac)</li>
+                </ul>
+            </div>
+            
+            <div style="margin-top: 25px; padding: 15px; background: rgba(255, 255, 255, 0.7); border-radius: 10px; border-left: 5px solid #e63946;">
+                <p style="margin-bottom: 10px; font-weight: 600; color: #e63946;">❓ Common Questions & Troubleshooting:</p>
+                <div style="text-align: left; line-height: 1.6; font-size: 0.9rem;">
+                    <p><strong>Q: The download button isn't working?</strong><br>
+                    A: Right-click the button and choose "Save link as..." or try a different browser.</p>
+                    
+                    <p><strong>Q: GitHub says my file is too large?</strong><br>
+                    A: The file is only ~10KB - this shouldn't happen. Try renaming it to <code>index.html</code>.</p>
+                    
+                    <p><strong>Q: GitHub Pages shows "404 Not Found"?</strong><br>
+                    A: Wait 2 minutes, refresh, and check your repository name matches the URL.</p>
+                    
+                    <p><strong>Q: The "No" button doesn't move on my iPhone?</strong><br>
+                    A: Tap and hold slightly longer - it's designed to work on touchscreens!</p>
+                    
+                    <p><strong>Q: Can I customize the message?</strong><br>
+                    A: Yes! Download the file, open in TextEdit, and edit the text before uploading.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+            const hiddenMessage = document.getElementById('hiddenMessage');
+            const heartsContainer = document.getElementById('heartsContainer');
+            const downloadBtn = document.getElementById('downloadBtn');
+            
+            // Create floating hearts
+            function createHearts() {
+                const heartCount = 20;
+                for (let i = 0; i < heartCount; i++) {
+                    const heart = document.createElement('div');
+                    heart.classList.add('floating-heart');
+                    heart.innerHTML = '❤️';
+                    heart.style.left = `${Math.random() * 100}%`;
+                    heart.style.animationDelay = `${Math.random() * 5}s`;
+                    heart.style.fontSize = `${Math.random() * 20 + 15}px`;
+                    heartsContainer.appendChild(heart);
+                }
+            }
+            
+            createHearts();
+            
+            // Yes button click handler
+            yesBtn.addEventListener('click', function() {
+                hiddenMessage.style.display = 'block';
+                yesBtn.style.display = 'none';
+                noBtn.style.display = 'none';
+                
+                // Create celebration hearts
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        const heart = document.createElement('div');
+                        heart.classList.add('floating-heart');
+                        heart.innerHTML = '❤️';
+                        heart.style.left = `${Math.random() * 100}%`;
+                        heart.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                        heart.style.fontSize = `${Math.random() * 30 + 20}px`;
+                        heartsContainer.appendChild(heart);
+                        
+                        // Remove heart after animation
+                        setTimeout(() => {
+                            heart.remove();
+                        }, 5000);
+                    }, i * 100);
+                }
+            });
+            
+            // No button interaction - makes button move away from cursor/touch
+            noBtn.addEventListener('mouseover', function(e) {
+                moveButton(e);
+            });
+            
+            noBtn.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                moveButton(e);
+            });
+            
+            function moveButton(e) {
+                const button = e.target;
+                const container = button.parentElement;
+                const containerRect = container.getBoundingClientRect();
+                const buttonRect = button.getBoundingClientRect();
+                
+                // Calculate new position
+                const maxX = containerRect.width - buttonRect.width;
+                const maxY = containerRect.height - buttonRect.height;
+                
+                // Get random position
+                const randomX = Math.random() * maxX;
+                const randomY = Math.random() * maxY;
+                
+                // Apply new position
+                button.style.position = 'absolute';
+                button.style.left = `${randomX}px`;
+                button.style.top = `${randomY}px`;
+                
+                // Change button text sometimes
+                const messages = ["Are you sure?", "Think again!", "Maybe?", "Please?", "Try again!", "I'll be sad 😢", "You don't mean that!"];
+                if (Math.random() > 0.7) {
+                    button.textContent = messages[Math.floor(Math.random() * messages.length)];
+                    setTimeout(() => {
+                        button.textContent = "No";
+                    }, 1000);
+                }
+            }
+            
+            // Make sure the no button stays within bounds on window resize
+            window.addEventListener('resize', function() {
+                noBtn.style.position = 'relative';
+                noBtn.style.left = 'auto';
+                noBtn.style.top = 'auto';
+            });
+            
+            // Download button functionality
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', function() {
+                    // Get the complete HTML of the current page
+                    const htmlContent = document.documentElement.outerHTML;
+                    
+                    // Create a blob with the HTML content
+                    const blob = new Blob([htmlContent], { type: 'text/html' });
+                    const url = URL.createObjectURL(blob);
+                    
+                    // Create a temporary link and trigger download
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'index.html';
+                    document.body.appendChild(a);
+                    a.click();
+                    
+                    // Clean up
+                    setTimeout(() => {
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    }, 100);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
